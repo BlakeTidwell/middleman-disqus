@@ -3,6 +3,7 @@ require "middleman-core"
 module Middleman
   class DisqusExtension < Extension
     option :shortname, nil, "Your short name for Disqus"
+    option :root_url, nil, "The root URL for the current environment (for dev/prod workflow)"
 
     def initialize(app, options_hash={}, &block)
       super

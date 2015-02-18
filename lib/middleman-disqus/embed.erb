@@ -1,9 +1,20 @@
+<% root_url = @options[:root_url] %>
 <div id="disqus_thread"></div>
 <script type="text/javascript">
 //<![CDATA[
-    <% @options.each do |key, value| %>
+    <%# Do Not Want Thinking %>
+    <%# TODO: See if this is worth refactoring into options. %>
+    <% if current_article.data.title.present? %>
+      var disqus_title = '<%= current_article.data.title %>'
+    <% end %>
+    <% @options.keep_if{ |key| key != 'root_url'}.each do |key, value| %>
       <% if value.is_a?(String) %>
-        var disqus_<%= key %> = '<%= value %>';
+        <% if key == 'identifier' && root_url.present? %>
+          var disqus_identifier = '<%= value %>';
+          var disqus_url = '<%= root_url + value %>';
+        <% else %>
+          var disqus_<%= key %> = '<%= value %>';
+        <% end %>
       <% elsif [Fixnum, FalseClass, TrueClass].include?(value.class) %>
         var disqus_<%= key %> = <%= value %>;
       <% end %>
